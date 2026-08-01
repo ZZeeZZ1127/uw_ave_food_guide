@@ -1456,7 +1456,7 @@ function escapeHTML(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 }
 function buildNavLink(lat, lng, label) {
-  return 'geo:' + lat + ',' + lng + '?q=' + lat + ',' + lng + '(' + encodeURIComponent(label) + ')';
+  return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(label + ', Seattle, WA');
 }
 
 var categoryColors = {
