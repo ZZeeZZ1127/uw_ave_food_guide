@@ -1455,8 +1455,9 @@ body {
 function escapeHTML(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 }
-function buildNavLink(lat, lng, label) {
-  return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(label + ', Seattle, WA');
+function buildNavLink(label, addr) {
+  var query = addr || (label + ', Seattle, WA');
+  return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(query);
 }
 
 var categoryColors = {
@@ -1497,10 +1498,12 @@ function initFoodMap(elementId) {
       iconAnchor: [16, 16]
     });
 
+    var addrEl = card.querySelector('.address');
+    var addr = addrEl ? addrEl.dataset.addr : '';
     var popup = '<b>' + escapeHTML(name) + '</b><br>'
       + '<span style="font-size:12px;color:#666;">' + (cat ? (cat.charAt(0).toUpperCase()+cat.slice(1)) : '') + '</span>'
       + (visited ? ' <span style="color:#2e7d32;font-size:11px;">✅ 已探</span>' : '')
-      + '<br><a href="' + buildNavLink(lat, lng, name) + '">🗺 导航到这里</a>';
+      + '<br><a href="' + buildNavLink(name, addr) + '">🗺 导航到这里</a>';
 
     L.marker([lat, lng], { icon: icon }).addTo(map).bindPopup(popup);
     bounds.push([lat, lng]);
