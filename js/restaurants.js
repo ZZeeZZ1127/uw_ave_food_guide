@@ -746,6 +746,9 @@ var restaurants = [
     visited: true,
     dishes: [
     ],
+    notes: [
+      { type: "info", text: "其实个人觉得都还可以😅" },
+    ],
   },
   {
     id: "grean-matcha",
