@@ -652,10 +652,10 @@ var restaurants = [
     ],
   },
   {
-    id: "",
+    id: "Cafe on the Ave",
     category: "fastfood",
-    name: "",
-    nameEn: "",
+    name: "Cafe on the Ave",
+    nameEn: "Cafe on the Ave",
     lat: 47.65844,
     lng: -122.31339,
     address: "4201 University Way NE",
