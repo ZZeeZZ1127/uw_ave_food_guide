@@ -2298,7 +2298,7 @@
               : "") +
             '<br><a href="' +
             buildNavLink(lat, lng, name) +
-            '">🗺 导航到这里</a>';
+            '" target="_blank" rel="noopener">🗺 导航到这里</a>';
 
           L.marker([lat, lng], { icon: icon }).addTo(map).bindPopup(popup);
           bounds.push([lat, lng]);
