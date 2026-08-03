@@ -230,7 +230,7 @@ var restaurants = [
     tags: ["桂林米粉"],
     price: "$$ · ~$16",
     visited: true,
-    badges: ["⚠️ 即将关门"],
+    badges: ["⚠️已关门 可尝一下bellevue那一家"],
     dishes: [
       { name: "双拼米粉（牛肚+猪舌）", note: "$15.99" },
       { name: "现做米粉 + 自助小料台" },
@@ -808,7 +808,7 @@ var restaurants = [
     dishes: [
     ],
     notes: [
-      { type: "caution", text: "⚠️ 要关门了，趁还在还可以再去一次！" },
+      { type: "caution", text: "已关门呜呜呜😭, 但是值得在此纪念一下" },
     ],
   },
   {
