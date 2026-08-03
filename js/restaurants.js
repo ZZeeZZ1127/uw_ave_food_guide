@@ -745,6 +745,8 @@ var restaurants = [
     price: "$ · $5-8",
     visited: true,
     dishes: [
+      { name: "烟花易冷", note: "ZZ 亲自品尝" },
+      { name: "游园一梦 (蜜桃乌龙)", note: "ZZ 亲自品尝"},
     ],
     notes: [
       { type: "info", text: "其实个人觉得都还可以😅" },
