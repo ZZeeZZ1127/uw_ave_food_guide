@@ -431,6 +431,28 @@ var restaurants = [
     ],
   },
   {
+    id: "tamari-bar",
+    category: "japanese",
+    name: "Tamari Bar",
+    nameEn: "Tamari Bar",
+    lat: 47.615540, 
+    lng: -122.325366,
+    address: "500 E Pine St",
+    dataAddr: "Tamari Bar, 500 E Pine St, Seattle, WA 98122",
+    tags: ["日料"],
+    price: "$$ · $20-40",
+    visited: true,
+    dishes: [
+      { name: "spicy yakitori curry", note: "ZZ 亲自品尝" },
+      { name: "TORA” 9 kinds appetizers platter" },
+      { name: "Area 206 Curry" },
+      { name: "wagyu hayashi rice bibimbap" },
+    ],
+    notes: [
+      { type: "info", text: "rondo姐妹店 价格很实惠 份量不错管饱"},
+    ]
+  },
+  {
     id: "bob",
     category: "korean",
     name: "Bob",
