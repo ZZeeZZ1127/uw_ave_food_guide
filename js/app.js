@@ -7,10 +7,11 @@ function escapeHTML(s) {
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#39;");
 }
-function buildNavLink(lat, lng, label) {
+function buildNavLink(lat, lng, label, dataAddr) {
+  var query = dataAddr || (label + " Seattle WA");
   return (
     "https://www.google.com/maps/search/?api=1&query=" +
-    encodeURIComponent(label + " Seattle WA")
+    encodeURIComponent(query)
   );
 }
 
@@ -188,7 +189,7 @@ function initFoodMap(elementId) {
         ? ' <span style="color:#2e7d32;font-size:11px;">✅ 已探</span>'
         : "") +
       '<br><a href="' +
-      buildNavLink(r.lat, r.lng, r.name + (r.nameEn ? " " + r.nameEn : "")) +
+      buildNavLink(r.lat, r.lng, r.name + (r.nameEn ? " " + r.nameEn : ""), r.dataAddr) +
       '" target="_blank" rel="noopener">🗺 导航到这里</a>';
 
     L.marker([r.lat, r.lng], { icon: icon }).addTo(map).bindPopup(popup);
