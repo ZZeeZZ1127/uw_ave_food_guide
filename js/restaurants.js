@@ -226,7 +226,7 @@ var restaurants = [
     ],
   },
   {
-    id: "Win Feng Noodles",
+    id: "win-feng-noodles",
     category: "chinese",
     name: "冯瀛桂林米粉",
     nameEn: "Win Feng Noodles",
@@ -237,18 +237,18 @@ var restaurants = [
     tags: ["桂林米粉"],
     price: "$$ · ~$16",
     visited: true,
-    badges: ["⚠️已关门 可尝一下bellevue那一家"],
+    badges: ["⚠️ 已关门"],
     dishes: [
       { name: "双拼米粉（牛肚+猪舌）", note: "$15.99" },
       { name: "现做米粉 + 自助小料台" },
     ],
     notes: [
-      { type: "caution", text: "⚠️ 听说快要关门了，想吃的抓紧去！" },
+      { type: "caution", text: "⚠️ 已关门 不过可以尝试一下bellevue那家" },
       { type: "info", text: "💡 附近最好吃的米粉，粉是现做的。小料台自己加汤、醋、卤子、辣酱，还有免费柠檬水" },
     ],
   },
   {
-    id: "鼎泰丰",
+    id: "din-tai-fung",
     category: "chinese",
     name: "鼎泰丰",
     nameEn: "Din Tai Fung",
@@ -259,18 +259,18 @@ var restaurants = [
     tags: ["台湾 / 小笼包"],
     price: "$$$ · $25-45",
     visited: true,
-    badges: ["🔥 朋友聚餐首选"],
+    badges: ["🔥 朋友聚餐"],
     dishes: [
       { name: "小笼包", note: "必点" },
       { name: "红油抄手" },
-      { name: "巧克力小笼包", note: "🍬 甜口必试" },
+      { name: "巧克力小笼包", note: "🍬 甜口必试 (maybe😏)" },
     ],
     notes: [
       { type: "info", text: "💡 不在 Ave 上但在旁边 U Village，步行可达。可以和朋友一起去。巧克力小笼包是甜口惊喜！品质稳定但确实有点贵" },
     ],
   },
   {
-    id: "李记",
+    id: "li-s-kitchen",
     category: "chinese",
     name: "李记",
     nameEn: "Lee's Kitchen",
@@ -289,11 +289,11 @@ var restaurants = [
     ],
     notes: [
       { type: "info", text: "💡 ZZ 经常去吃！猪杂面、煲仔饭、盐酥鸡便当、猪脚饭都很不错。就在茶宴旁边，离 Ode 很近，下课顺路买很方便" },
-      { type: "info", text: "卫生做得不是很好，注意一下就好" },
+      { type: "info", text: "卫生做得不是很好，注意一下" },
     ],
   },
   {
-    id: "侨林火锅",
+    id: "qiao-lin-hotpot",
     category: "chinese",
     name: "侨林火锅",
     nameEn: "Qiao Lin Hotpot",
@@ -309,24 +309,23 @@ var restaurants = [
       { name: "一米肥牛", note: "必点" },
       { name: "现切牛仔肉", note: "招牌" },
       { name: "爽脆黑毛肚" },
-      { name: "秘制牛舌 / 小郡肝" },
       { name: "鸳鸯锅（麻辣 + 番茄）", note: "推荐" },
     ],
     notes: [
-      { type: "info", text: "🌶️ 辣锅不算很辣，不能吃辣也能接受。鸳鸯锅选麻辣+番茄最稳" },
-      { type: "info", text: "🕐 Happy Hour 全场 69折：Sun-Thu 2-4PM & 8:30PM后，Fri-Sat 9:30PM后" },
+      { type: "info", text: "🌶️ 辣锅不算很辣，不能吃辣也能接受。鸳鸯锅推荐选麻辣+番茄" },
+      { type: "info", text: "🕐 Happy Hour 全场 69折：Sun-Thu 2-4PM & 8:30PM后，Fri-Sat 2-4PM & 9:30PM后" },
       { type: "info", text: "🍦 小料台免费小菜（猪耳朵、凤爪、冰粉）+ 免费冰淇淋，适合朋友聚餐" },
-      { type: "info", text: "🚗 不在 Ave 上，位于 Downtown。停车 $5/3hr。Yelp 可排队取号" },
+      { type: "info", text: "🚗 不在 Ave 上，位于 Downtown。停车 $5/3hr。Yelp 可排队取号 google map上可提前预定" },
     ],
   },
   {
-    id: "Honeybee Fried Chicken",
+    id: "honeybee-fried-chicken",
     category: "chinese",
     name: "Honeybee Fried Chicken",
     nameEn: "Honeybee Fried Chicken",
     lat: 47.66441,
     lng: -122.31293,
-    address: "4744 University Way NE 旁（岩茶隔壁）",
+    address: "4744 University Way NE 旁（YAN tea隔壁）",
     dataAddr: "Honeybee Fried Chicken, 4744 University Wy NE Ste A, Seattle, WA 98105", 
     tags: ["炸鸡 / 便当"],
     price: "$ · $8-15",
@@ -336,7 +335,7 @@ var restaurants = [
       { name: "便当" },
     ],
     notes: [
-      { type: "info", text: "💡 岩茶旁边的炸鸡店，炸鸡很便宜很划算，便当也不错" },
+      { type: "info", text: "💡 YAN tea旁边的炸鸡店，炸鸡很便宜很划算，便当也不错" },
     ],
   },
   {
@@ -361,7 +360,7 @@ var restaurants = [
     ],
   },
   {
-    id: "天丼琥珀",
+    id: "tendon-kohaku",
     category: "japanese",
     name: "天丼琥珀",
     nameEn: "Tendon Kohaku",
@@ -399,7 +398,7 @@ var restaurants = [
     ],
   },
   {
-    id: "Sumo Sushi AYCE",
+    id: "sumo-sushi-AYCE",
     category: "japanese",
     name: "Sumo Sushi AYCE",
     nameEn: "Sumo Sushi AYCE",
@@ -415,7 +414,7 @@ var restaurants = [
       { name: "Short Ribs / 三文鱼刺身", note: "推荐" },
     ],
     notes: [
-      { type: "caution", text: "⚠️ \"和我们有 beef\"，品质不是很好 — 个人不推荐再去" },
+      { type: "caution", text: "⚠️ \"和我们有 beef\"，品质不是很好 --- 个人包括几个朋友都不推荐再去" },
     ],
   },
   {
@@ -477,7 +476,7 @@ var restaurants = [
       { name: "石锅拌饭（记得加个蛋）", note: "ZZ 每次必点" },
     ],
     notes: [
-      { type: "info", text: "💡 ZZ 多次去吃，基本每次都是石锅拌饭加蛋" },
+      { type: "info", text: "💡 ZZ 多次去吃 基本每次都是石锅拌饭加蛋 有时候会加肉" },
     ],
   },
   {
@@ -499,7 +498,7 @@ var restaurants = [
       { name: "海鲜煎饼（小菜可续）" },
     ],
     notes: [
-      { type: "info", text: "💡 小菜很好吃（葱饼、鱼饼），还能续，西雅图雨天暖胃首选" },
+      { type: "info", text: "💡 小菜很好吃（葱饼、鱼饼等等), 并且能续" },
     ],
   },
   {
@@ -555,7 +554,8 @@ var restaurants = [
     visited: true,
     badges: ["🔥 午餐队伍通常很长"],
     dishes: [
-      { name: "Pork Belly / 豆腐也不错" },
+      { name: "beef + chicken" },
+      { name: "Pork Belly + 豆腐" },
     ],
     notes: [
       { type: "info", text: "💡 ZZ 经常吃！便宜好吃，每次都点半牛半鸡，朋友推荐加 Pork Belly 和豆腐。担心味道淡可以要 extra soy sauce。期末图书馆赶 due 首选，自己买或让朋友带都在图书馆吃" },
@@ -623,7 +623,7 @@ var restaurants = [
     ],
   },
   {
-    id: "Little Thai Restaurant",
+    id: "little-thai-restaurant",
     category: "southeast",
     name: "Little Thai Restaurant",
     nameEn: "Little Thai Restaurant",
@@ -681,11 +681,11 @@ var restaurants = [
       { name: "Texas Toast" },
     ],
     notes: [
-      { type: "info", text: "西雅图第一家 Raising Cane's！开到凌晨2, 3点 适合作为夜宵" },
+      { type: "info", text: "西雅图第一家 Raising Cane's！开到凌晨2, 3点 适合作为 (期末周) 夜宵" },
     ],
   },
   {
-    id: "Cafe on the Ave",
+    id: "cafe-on-the-ave",
     category: "fastfood",
     name: "Cafe on the Ave",
     nameEn: "Cafe on the Ave",
@@ -708,7 +708,7 @@ var restaurants = [
     ],
   },
   {
-    id: "Cultivate",
+    id: "cultivate",
     category: "fastfood",
     name: "Cultivate UW",
     nameEn: "Cultivate",
@@ -746,7 +746,7 @@ var restaurants = [
     ],
   },
   {
-    id: "岩茶",
+    id: "yan-tea",
     category: "dessert",
     name: "岩茶",
     nameEn: "YAN Tea",
@@ -768,7 +768,7 @@ var restaurants = [
     ],
   },
   {
-    id: "茶宴",
+    id: "chayan",
     category: "dessert",
     name: "茶宴",
     nameEn: "Chayan",
