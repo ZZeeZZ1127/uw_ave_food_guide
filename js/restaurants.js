@@ -330,12 +330,15 @@ var restaurants = [
     tags: ["炸鸡 / 便当"],
     price: "$ · $8-15",
     visited: true,
+    badges: ["🔥 朋友认证：盐酥鸡 Ave 第一"],
     dishes: [
+      { name: "盐酥鸡", note: "🔥 朋友认证 · 务必现炸现吃" },
       { name: "炸鸡", note: "便宜划算" },
       { name: "便当" },
     ],
     notes: [
       { type: "info", text: "💡 YAN tea旁边的炸鸡店，炸鸡很便宜很划算，便当也不错" },
+      { type: "info", text: "🔥 朋友强推盐酥鸡！一定要现炸现吃，非常juicy!" },
     ],
   },
   {
