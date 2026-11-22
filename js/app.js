@@ -57,7 +57,6 @@ var categoryColors = {
   southeast: "#16a085",
   fastfood: "#e67e22",
   dessert: "#e91e63",
-  breakfast: "#f39c12",
   hotpot: "#d35400",
   western: "#5d4037",
 };
@@ -68,7 +67,6 @@ var categoryEmoji = {
   southeast: "🍜",
   fastfood: "🍔",
   dessert: "🍰",
-  breakfast: "🥐",
   hotpot: "🍲",
   western: "🍽️",
 };
@@ -395,8 +393,27 @@ function initFilter() {
       btn.classList.add("active");
       currentFilter = btn.dataset.filter;
       applyView();
+      scrollToResults();
     });
   });
+}
+
+// Filtering shortens the page, so the browser clamps the scroll position and
+// (on phones especially) lands at the footer. If the user was already below
+// the start of the results, bring the first visible section up to just under
+// the sticky filter bar; if they were above it (e.g. looking at the map), stay put.
+function scrollToResults() {
+  var first = null;
+  document
+    .querySelectorAll(".section-title[data-category], #empty-state")
+    .forEach(function (el) {
+      if (!first && el.style.display !== "none") first = el;
+    });
+  if (!first) return;
+  var bar = document.querySelector(".filter-bar");
+  var barBottom = bar ? bar.getBoundingClientRect().bottom : 0;
+  var target = first.getBoundingClientRect().top + window.scrollY - barBottom - 8;
+  if (window.scrollY > target) window.scrollTo(0, Math.max(0, target));
 }
 
 // === Region switch ===

@@ -292,7 +292,7 @@ var restaurants = [
   },
   {
     id: "qiao-lin-hotpot",
-    category: "chinese",
+    category: "hotpot",
     name: "侨林火锅",
     nameEn: "Qiao Lin Hotpot",
     lat: 47.61202,
@@ -710,7 +710,7 @@ var restaurants = [
   },
   {
     id: "cultivate",
-    category: "fastfood",
+    category: "western",
     name: "Cultivate UW",
     nameEn: "Cultivate",
     lat: 47.656819, 
