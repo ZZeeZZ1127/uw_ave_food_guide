@@ -13,14 +13,19 @@
   <body>
     <!-- Header -->
     <header class="header">
-      <h1>🍜 UW Ave 美食攻略</h1>
-      <p class="subtitle">
+      <h1 data-region="ave">🍜 UW Ave 美食攻略</h1>
+      <h1 data-region="bellevue" style="display: none">🌆 Bellevue 美食攻略</h1>
+      <p class="subtitle" data-region="ave">
         华盛顿大学 · University Way NE · 从 41st 到 50th 的美食地图
       </p>
+      <p class="subtitle" data-region="bellevue" style="display: none">
+        Eastside · Downtown / Crossroads / Factoria / Main St 的美食地图
+      </p>
       <div class="meta">
-        <span>📍 Seattle, WA 98105</span>
-        <span>🏪 42 家餐厅收录</span>
-        <span>🕐 2026 年 10 月更新</span>
+        <span data-region="ave">📍 Seattle, WA 98105</span>
+        <span data-region="bellevue" style="display: none">📍 Bellevue, WA</span>
+        <span id="restaurant-count">🏪 家餐厅收录</span>
+        <span>🕐 2026 年 11 月更新</span>
       </div>
     </header>
 
@@ -32,18 +37,33 @@
         >
         <span class="preference-tag visited">✅ 绿色边框 = 已探过店</span>
         <span class="preference-tag must-try">🔥 红色标记 = 高优先级必试</span>
-        <span class="preference-tag" style="background: #fff5f5; color: #c62828"
+        <span
+          class="preference-tag"
+          data-region="ave"
+          style="background: #fff5f5; color: #c62828"
           >😢 Ave 上没有湖北菜……</span
         >
+      </div>
+
+      <!-- 区域切换 (hash: #ave / #bellevue) -->
+      <div class="region-bar">
+        <button class="filter-btn active" data-region-switch="ave">
+          🎓 UW Ave
+        </button>
+        <button class="filter-btn" data-region-switch="bellevue">
+          🌆 Bellevue
+        </button>
       </div>
 
       <!-- 分类筛选 -->
       <div class="filter-bar">
         <button class="filter-btn active" data-filter="all">全部</button>
         <button class="filter-btn" data-filter="chinese">🥢 中餐</button>
+        <button class="filter-btn" data-filter="hotpot">🍲 火锅烤肉</button>
         <button class="filter-btn" data-filter="japanese">🍣 日料</button>
         <button class="filter-btn" data-filter="korean">🇰🇷 韩餐</button>
         <button class="filter-btn" data-filter="southeast">🍜 东南亚</button>
+        <button class="filter-btn" data-filter="western">🍽️ 西餐</button>
         <button class="filter-btn" data-filter="fastfood">
           🍔 快餐 / 咖啡轻食
         </button>
@@ -55,11 +75,15 @@
       <div id="map"></div>
       <div class="map-legend">
         <span><span class="dot" style="background: #c0392b"></span> 中餐</span>
+        <span
+          ><span class="dot" style="background: #d35400"></span> 火锅烤肉</span
+        >
         <span><span class="dot" style="background: #2c3e50"></span> 日料</span>
         <span><span class="dot" style="background: #8e44ad"></span> 韩餐</span>
         <span
           ><span class="dot" style="background: #16a085"></span> 东南亚</span
         >
+        <span><span class="dot" style="background: #5d4037"></span> 西餐</span>
         <span><span class="dot" style="background: #e67e22"></span> 快餐</span>
         <span
           ><span class="dot" style="background: #e91e63"></span> 甜品奶茶</span
@@ -72,16 +96,23 @@
 
       <!-- ==================== 中餐 ==================== -->
       <h2 class="section-title" data-category="chinese">
-        <span class="icon">🥢</span> 中餐 <span class="count">15 家</span>
+        <span class="icon">🥢</span> 中餐 <span class="count"></span>
       </h2>
 
       <div class="card-grid" data-category="chinese"></div>
 
+      <!-- ==================== 火锅烤肉 ==================== -->
+      <h2 class="section-title" data-category="hotpot">
+        <span class="icon">🍲</span> 火锅烤肉 <span class="count"></span>
+      </h2>
+
+      <div class="card-grid" data-category="hotpot"></div>
+
       <!-- ==================== 日料 ==================== -->
       <h2 class="section-title" data-category="japanese">
-        <span class="icon">🍣</span> 日料 <span class="count">6 家</span>
+        <span class="icon">🍣</span> 日料 <span class="count"></span>
       </h2>
-      <div class="section-intro">
+      <div class="section-intro" data-category="japanese" data-region="ave">
         Ave 上日料选择从平价乌冬到寿司自助都有覆盖。
       </div>
 
@@ -89,7 +120,7 @@
 
       <!-- ==================== 韩餐 ==================== -->
       <h2 class="section-title" data-category="korean">
-        <span class="icon">🇰🇷</span> 韩餐 <span class="count">4 家</span>
+        <span class="icon">🇰🇷</span> 韩餐 <span class="count"></span>
       </h2>
 
       <div class="card-grid" data-category="korean"></div>
@@ -97,30 +128,106 @@
       <!-- ==================== 东南亚 / 越南 ==================== -->
       <h2 class="section-title" data-category="southeast">
         <span class="icon">🍜</span> 东南亚 / 越南
-        <span class="count">5 家</span>
+        <span class="count"></span>
       </h2>
 
       <div class="card-grid" data-category="southeast"></div>
 
+      <!-- ==================== 西餐 ==================== -->
+      <h2 class="section-title" data-category="western">
+        <span class="icon">🍽️</span> 西餐 <span class="count"></span>
+      </h2>
+
+      <div class="card-grid" data-category="western"></div>
+
       <!-- ==================== 快餐 ==================== -->
       <h2 class="section-title" data-category="fastfood">
         <span class="icon">🍔</span> 快餐简餐 / 咖啡轻食
-        <span class="count">4 家</span>
+        <span class="count"></span>
       </h2>
 
       <div class="card-grid" data-category="fastfood"></div>
 
       <!-- ==================== 甜品奶茶 ==================== -->
       <h2 class="section-title" data-category="dessert">
-        <span class="icon">🍰</span> 甜品奶茶 <span class="count">8 家</span>
+        <span class="icon">🍰</span> 甜品奶茶 <span class="count"></span>
       </h2>
-      <div class="section-intro">
+      <div class="section-intro" data-category="dessert" data-region="ave">
         Ave 奶茶甜品竞争激烈，从台式奶茶到雪花冰都有覆盖。
       </div>
 
       <div class="card-grid" data-category="dessert"></div>
 
-      <!-- ==================== 快速指南 ==================== -->
+      <div id="empty-state" class="section-intro empty-state" style="display: none">
+        🥲 这个区域暂时还没有收录该分类的餐厅，换个分类看看吧
+      </div>
+
+      <!-- ==================== Bellevue 专属 (不上地图) ==================== -->
+      <div data-region="bellevue" style="display: none">
+        <h2 class="section-title">
+          <span class="icon">🚧</span> 即将开业
+        </h2>
+        <div class="card-grid" style="grid-template-columns: 1fr">
+          <div class="card" id="bellevue-coming-soon" style="grid-column: 1 / -1">
+            <div class="card-body">
+              <ul class="dish-list">
+                <li>
+                  <span class="dish-name">🥩 Wagyu House（AYCE 和牛烤肉）</span
+                  ><span class="dish-price">Lincoln Square North 2F（鼎泰丰旧址）· 目标 2026 年底</span>
+                </li>
+                <li>
+                  <span class="dish-name">🍣 Sushi Tei（新加坡日料连锁，美国首店）</span
+                  ><span class="dish-price">Bellevue Square 原 P.F. Chang's · 延期，暂无新日期</span>
+                </li>
+                <li>
+                  <span class="dish-name">🍦 Indigo Cow + Machi Machi</span
+                  ><span class="dish-price">Main Street Flats · 暂无开业日期</span>
+                </li>
+                <li>
+                  <span class="dish-name">🍱 Nobu</span
+                  ><span class="dish-price">Avenue Bellevue · 2027 年</span>
+                </li>
+              </ul>
+              <div class="note">💡 还没开业，所以不放进地图。开业后再补成正式卡片</div>
+            </div>
+          </div>
+        </div>
+
+        <h2 class="section-title">
+          <span class="icon">🛍️</span> 附近逛吃
+        </h2>
+        <div class="card-grid" style="grid-template-columns: 1fr">
+          <div class="card" id="bellevue-nearby-tips" style="grid-column: 1 / -1">
+            <div class="card-body">
+              <ul class="dish-list">
+                <li>
+                  <span class="dish-name">🛒 Crossroads 美食街</span
+                  ><span class="dish-price">E+ Noodles、楠火锅，美食街里还有很多别的可以逛；附近还有奈哥酸菜鱼、快乐小羊</span>
+                </li>
+                <li>
+                  <span class="dish-name">🏬 Factoria</span
+                  ><span class="dish-price">Sushi Omiya、Thai Ginger、天府春秋、Top Gun 早茶都在附近</span>
+                </li>
+                <li>
+                  <span class="dish-name">🥟 T&amp;T 大统华</span
+                  ><span class="dish-price">12620 SE 41st Pl（Factoria）· 有自助热食吧，逛超市的时候可以顺便吃</span>
+                </li>
+                <li>
+                  <span class="dish-name">🥢 百家超市 Asian Family Market</span
+                  ><span class="dish-price">14515 NE 20th St · 同一个广场有西安味道、Sum Yee Kae（原新瑞华）早茶，逛完超市直接吃</span>
+                </li>
+                <li>
+                  <span class="dish-name">🧋 Belgate Plaza（1075 Bellevue Way NE）</span
+                  ><span class="dish-price">沸点、茶百道、东方 Facing East 都在同一个广场</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== 快速指南 (Ave) ==================== -->
+      <div data-region="ave">
       <h2 class="section-title">
         <span class="icon">📋</span> 快速决策指南 (内容不全, 仅供参考)
       </h2>
@@ -185,6 +292,50 @@
           </div>
         </div>
       </div>
+      </div>
+
+      <!-- ==================== 快速指南 (Bellevue) ==================== -->
+      <div data-region="bellevue" style="display: none">
+        <h2 class="section-title">
+          <span class="icon">📋</span> 快速决策指南 (内容不全, 仅供参考)
+        </h2>
+
+        <div class="card-grid" style="grid-template-columns: 1fr">
+          <div class="card" style="grid-column: 1 / -1">
+            <div class="card-body">
+              <h3 style="margin-bottom: 16px">按场景选餐厅</h3>
+              <table
+                style="width: 100%; border-collapse: collapse; font-size: 14px"
+              >
+                <tr style="border-bottom: 1px solid var(--border)">
+                  <td style="padding: 10px 8px; font-weight: 700">🍲 火锅</td>
+                  <td style="padding: 10px 8px">沸点（个人小火锅，ZZ 常去）/ 老码头 / 楠火锅 / 豆捞坊（请客）</td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--border)">
+                  <td style="padding: 10px 8px; font-weight: 700">🔥 AYCE 自助</td>
+                  <td style="padding: 10px 8px">Woobling 韩式烤肉 $28-58 / 快乐小羊 / 海底捞 happy hour</td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--border)">
+                  <td style="padding: 10px 8px; font-weight: 700">🍣 日料</td>
+                  <td style="padding: 10px 8px">天丼琥珀（这一带最好吃）/ Sushi Omiya（性价比之王）/ 辉月 全明星拉面</td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--border)">
+                  <td style="padding: 10px 8px; font-weight: 700">🎉 聚餐请客</td>
+                  <td style="padding: 10px 8px">东北人家 铁锅炖 / 鼎泰丰 / 丹桂轩 / 西塔老太太</td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--border)">
+                  <td style="padding: 10px 8px; font-weight: 700">🍬 甜口</td>
+                  <td style="padding: 10px 8px">九紫湘 糖油粑粑 / LeTao 芝士蛋糕</td>
+                </tr>
+                <tr>
+                  <td style="padding: 10px 8px; font-weight: 700">🥤 奶茶</td>
+                  <td style="padding: 10px 8px">茶百道 杨枝甘露 / 吃茶三千 / 和茶楼 茶冻</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <!-- Disclaimer -->
       <div class="disclaimer">
@@ -193,7 +344,7 @@
         Times 等公开平台 2024-2026
         年的用户评价与报道整理而成，仅供<strong>参考</strong>，可能不准确或已过时
         (不过在后续的更新中 会陆续解决这些问题 尽情期待)。<br /><br />
-        价格可能变动，部分餐厅可能已搬迁或关闭（如 Snooze），建议出发前在 Google
+        价格可能变动，部分餐厅可能已搬迁或关闭（如 Snooze；Bellevue 的 Great State Burger / King Leroy / Adrian's / Blazing Bagels 均已在 2026 年关门），建议出发前在 Google
         Maps / Yelp 上核实最新营业状态与菜单。<br /><br />
         标记为"已探
         ✅"的为个人实际去过，其余为基于公开评价的推荐。口味因人而异，可以多试几家找到自己喜欢的
@@ -201,7 +352,7 @@
       </div>
 
       <div class="footer">
-        Made with 🍜 for UW Huskies · 2026 年 8 月更新 · 数据来源：小红书 /
+        Made with 🍜 for UW Huskies · 2026 年 11 月更新 · 数据来源：小红书 /
         Dealmoon / Google Maps / Seattle Times
       </div>
     </div>

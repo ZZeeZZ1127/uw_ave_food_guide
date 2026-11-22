@@ -7,8 +7,42 @@ function escapeHTML(s) {
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#39;");
 }
-function buildNavLink(lat, lng, label, dataAddr) {
-  var query = dataAddr || (label + " Seattle WA");
+// === Region config ===
+// Restaurants carry an optional `region` field: "ave" (default) or "bellevue"
+var regionConfig = {
+  ave: {
+    city: "Seattle, WA",
+    center: [47.663, -122.313],
+    zoom: 16,
+    docTitle: "UW Ave 美食攻略 · 华盛顿大学美食地图",
+  },
+  bellevue: {
+    city: "Bellevue, WA",
+    center: [47.6101, -122.2015],
+    zoom: 13,
+    docTitle: "Bellevue 美食攻略 · 华盛顿大学美食地图",
+  },
+};
+var currentRegion = "ave";
+var currentFilter = "all";
+var regionCounts = {};
+
+function regionOf(r) {
+  return r && r.region && regionConfig[r.region] ? r.region : "ave";
+}
+function regionFromHash() {
+  var h = (location.hash || "").replace(/^#/, "").toLowerCase();
+  return regionConfig[h] ? h : "ave";
+}
+function regionRestaurants() {
+  return restaurants.filter(function (r) {
+    return regionOf(r) === currentRegion;
+  });
+}
+
+function buildNavLink(lat, lng, label, dataAddr, region) {
+  var city = regionConfig[region || currentRegion].city;
+  var query = dataAddr || label + " " + city.replace(",", "");
   return (
     "https://www.google.com/maps/search/?api=1&query=" +
     encodeURIComponent(query)
@@ -24,6 +58,8 @@ var categoryColors = {
   fastfood: "#e67e22",
   dessert: "#e91e63",
   breakfast: "#f39c12",
+  hotpot: "#d35400",
+  western: "#5d4037",
 };
 var categoryEmoji = {
   chinese: "🥢",
@@ -33,6 +69,8 @@ var categoryEmoji = {
   fastfood: "🍔",
   dessert: "🍰",
   breakfast: "🥐",
+  hotpot: "🍲",
+  western: "🍽️",
 };
 
 // === Card renderer ===
@@ -90,6 +128,8 @@ function renderCard(r) {
     classes +
     '" data-category="' +
     r.category +
+    '" data-region="' +
+    regionOf(r) +
     '" data-lat="' +
     r.lat +
     '" data-lng="' +
@@ -127,12 +167,13 @@ function renderCard(r) {
   );
 }
 
-// Populate all card grids by category
+// Populate all card grids by category (current region only)
 function renderAllCards() {
+  var inRegion = regionRestaurants();
   var grids = document.querySelectorAll(".card-grid[data-category]");
   grids.forEach(function (grid) {
     var cat = grid.dataset.category;
-    var list = restaurants.filter(function (r) {
+    var list = inRegion.filter(function (r) {
       return r.category === cat;
     });
     var html = "";
@@ -144,19 +185,33 @@ function renderAllCards() {
 }
 
 // === Map ===
+// Map is created once; markers live in a layerGroup that is rebuilt per region
+var foodMap = null;
+var markerLayer = null;
+
 function initFoodMap(elementId) {
-  var map = L.map(elementId, { zoomControl: true }).setView(
-    [47.663, -122.313],
-    16,
+  var cfg = regionConfig[currentRegion];
+  foodMap = L.map(elementId, { zoomControl: true }).setView(
+    cfg.center,
+    cfg.zoom,
   );
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution:
       '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
     maxZoom: 19,
-  }).addTo(map);
+  }).addTo(foodMap);
+
+  markerLayer = L.layerGroup().addTo(foodMap);
+  renderMarkers();
+  return foodMap;
+}
+
+function renderMarkers() {
+  if (!foodMap || !markerLayer) return;
+  markerLayer.clearLayers();
 
   var bounds = [];
-  restaurants.forEach(function (r) {
+  regionRestaurants().forEach(function (r) {
     var color = categoryColors[r.category] || "#999";
     var emoji = categoryEmoji[r.category] || "";
 
@@ -189,31 +244,49 @@ function initFoodMap(elementId) {
         ? ' <span style="color:#2e7d32;font-size:11px;">✅ 已探</span>'
         : "") +
       '<br><a href="' +
-      buildNavLink(r.lat, r.lng, r.name + (r.nameEn ? " " + r.nameEn : ""), r.dataAddr) +
+      buildNavLink(
+        r.lat,
+        r.lng,
+        r.name + (r.nameEn ? " " + r.nameEn : ""),
+        r.dataAddr,
+        regionOf(r),
+      ) +
       '" target="_blank" rel="noopener">🗺 导航到这里</a>';
 
-    L.marker([r.lat, r.lng], { icon: icon }).addTo(map).bindPopup(popup);
+    L.marker([r.lat, r.lng], { icon: icon })
+      .addTo(markerLayer)
+      .bindPopup(popup);
     bounds.push([r.lat, r.lng]);
   });
 
   if (bounds.length) {
-    map.fitBounds(bounds, { padding: [30, 30], maxZoom: 17 });
+    foodMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 17 });
+  } else {
+    var cfg = regionConfig[currentRegion];
+    foodMap.setView(cfg.center, cfg.zoom);
   }
-  return map;
 }
 
 // === Address linkifier ===
 // Converts .address div text into clickable Google Maps links
+// Idempotent: safe to re-run after cards are re-rendered for a new region
 function linkifyAddresses() {
   document.querySelectorAll(".address").forEach(function (el) {
+    if (el.dataset.linked) return;
+    el.dataset.linked = "1";
     var query;
     if (el.dataset.addr) {
       query = el.dataset.addr;
     } else {
       var card = el.closest(".card");
       var name = card ? card.dataset.name : "";
+      var scope = el.closest("[data-region]");
+      var region =
+        scope && regionConfig[scope.dataset.region]
+          ? scope.dataset.region
+          : currentRegion;
       var txt = el.textContent.replace("📍", "").trim();
-      query = name + ", " + txt + ", Seattle, WA";
+      query = name + ", " + txt + ", " + regionConfig[region].city;
     }
     var link = document.createElement("a");
     link.href =
@@ -231,54 +304,145 @@ function linkifyAddresses() {
   });
 }
 
+// === Counts ===
+// Header total + per-category section counts, computed from data for the current region
+function updateCounts() {
+  var inRegion = regionRestaurants();
+  regionCounts = {};
+  inRegion.forEach(function (r) {
+    regionCounts[r.category] = (regionCounts[r.category] || 0) + 1;
+  });
+
+  var total = document.getElementById("restaurant-count");
+  if (total) total.textContent = "🏪 " + inRegion.length + " 家餐厅收录";
+
+  document
+    .querySelectorAll(".section-title[data-category]")
+    .forEach(function (title) {
+      var count = title.querySelector(".count");
+      if (count) {
+        count.textContent = (regionCounts[title.dataset.category] || 0) + " 家";
+      }
+    });
+}
+
+// === View (region + category filter) ===
+// Single source of visibility for region-scoped blocks and category sections
+function applyView() {
+  // Region-scoped static blocks (header text, tags, guides, placeholders).
+  // Rendered cards also carry data-region but always match the current region.
+  document.querySelectorAll("[data-region]").forEach(function (el) {
+    el.style.display = el.dataset.region === currentRegion ? "" : "none";
+  });
+
+  var filter = currentFilter;
+  function catVisible(cat) {
+    return (filter === "all" || cat === filter) && (regionCounts[cat] || 0) > 0;
+  }
+
+  document
+    .querySelectorAll(".section-title[data-category]")
+    .forEach(function (title) {
+      title.style.display = catVisible(title.dataset.category) ? "" : "none";
+    });
+
+  document
+    .querySelectorAll(".section-intro[data-category]")
+    .forEach(function (intro) {
+      var regionOk =
+        !intro.dataset.region || intro.dataset.region === currentRegion;
+      intro.style.display =
+        filter === "all" && regionOk && catVisible(intro.dataset.category)
+          ? ""
+          : "none";
+    });
+
+  document.querySelectorAll(".card[data-category]").forEach(function (card) {
+    if (filter === "all" || card.dataset.category === filter) {
+      card.classList.remove("hidden");
+    } else {
+      card.classList.add("hidden");
+    }
+  });
+
+  var anyVisible = false;
+  document
+    .querySelectorAll(".card-grid[data-category]")
+    .forEach(function (grid) {
+      var show = catVisible(grid.dataset.category);
+      grid.style.display = show ? "" : "none";
+      if (show) anyVisible = true;
+    });
+
+  var empty = document.getElementById("empty-state");
+  if (empty) {
+    empty.style.display = anyVisible ? "none" : "";
+    empty.textContent =
+      filter === "all"
+        ? "🚧 这个区域的餐厅还在整理中，敬请期待"
+        : "🥲 这个区域暂时还没有收录该分类的餐厅，换个分类看看吧";
+  }
+}
+
 // === Category filter ===
 function initFilter() {
-  var filterBtns = document.querySelectorAll(".filter-btn");
+  var filterBtns = document.querySelectorAll(".filter-btn[data-filter]");
   filterBtns.forEach(function (btn) {
     btn.addEventListener("click", function () {
       filterBtns.forEach(function (b) {
         b.classList.remove("active");
       });
       btn.classList.add("active");
-      var filter = btn.dataset.filter;
+      currentFilter = btn.dataset.filter;
+      applyView();
+    });
+  });
+}
 
-      document
-        .querySelectorAll(".section-title[data-category]")
-        .forEach(function (title) {
-          title.style.display =
-            filter === "all" || title.dataset.category === filter ? "" : "none";
-        });
+// === Region switch ===
+function applyRegion() {
+  document.title = regionConfig[currentRegion].docTitle;
+  document
+    .querySelectorAll(".filter-btn[data-region-switch]")
+    .forEach(function (btn) {
+      btn.classList.toggle(
+        "active",
+        btn.dataset.regionSwitch === currentRegion,
+      );
+    });
+  renderAllCards();
+  updateCounts();
+  renderMarkers();
+  linkifyAddresses();
+  applyView();
+}
 
-      document.querySelectorAll(".section-intro").forEach(function (intro) {
-        intro.style.display = filter === "all" ? "" : "none";
-      });
+function setRegion(region) {
+  if (!regionConfig[region] || region === currentRegion) return;
+  currentRegion = region;
+  applyRegion();
+}
 
-      document
-        .querySelectorAll(".card[data-category]")
-        .forEach(function (card) {
-          if (filter === "all" || card.dataset.category === filter) {
-            card.classList.remove("hidden");
-          } else {
-            card.classList.add("hidden");
-          }
-        });
-
-      document.querySelectorAll(".card-grid").forEach(function (grid) {
-        var visible = grid.querySelectorAll(
-          ".card[data-category]:not(.hidden)",
-        );
-        var noCatCards = grid.querySelectorAll(".card:not([data-category])");
-        grid.style.display =
-          visible.length === 0 && noCatCards.length === 0 ? "none" : "";
+function initRegionSwitch() {
+  document
+    .querySelectorAll(".filter-btn[data-region-switch]")
+    .forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        // Hash is the source of truth: survives reload, works as a deep link
+        location.hash = btn.dataset.regionSwitch;
+        setRegion(btn.dataset.regionSwitch);
       });
     });
+  window.addEventListener("hashchange", function () {
+    setRegion(regionFromHash());
   });
 }
 
 // === Bootstrap ===
 document.addEventListener("DOMContentLoaded", function () {
-  renderAllCards();
+  currentRegion = regionFromHash();
   initFoodMap("map");
-  linkifyAddresses();
   initFilter();
+  initRegionSwitch();
+  applyRegion();
 });

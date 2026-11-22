@@ -12,6 +12,8 @@
   --fastfood: #e67e22;
   --dessert: #e91e63;
   --breakfast: #f39c12;
+  --hotpot: #d35400;
+  --western: #5d4037;
   --new: #27ae60;
   --border: #e8ddd4;
   --shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
@@ -117,6 +119,17 @@ body {
   font-weight: 500;
   color: var(--text-dim);
   margin-left: auto;
+}
+
+/* Region switch (reuses .filter-btn styling) */
+.region-bar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 24px 0 0;
+}
+.region-bar + .filter-bar {
+  margin-top: 8px;
 }
 
 /* Category filter */
@@ -376,6 +389,11 @@ body {
   color: var(--text-dim);
   margin-bottom: 16px;
   line-height: 1.7;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 24px 0;
 }
 
 /* Disclaimer */
