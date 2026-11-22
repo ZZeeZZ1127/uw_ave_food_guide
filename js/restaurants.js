@@ -992,6 +992,28 @@ var restaurants = [
       { type: "info", text: "🚌 不在 Ave 上，在 Wallingford 45th St，从 U District 坐 44 路公交很方便" },
     ],
   },
+  {
+    id: "solo-noodle",
+    category: "chinese",
+    name: "大王牛肉面",
+    nameEn: "Solo Noodle",
+    lat: 47.6611456,
+    lng: -122.3127199,
+    address: "1409 NE 45th St（45th 和 Ave 路口）",
+    dataAddr: "Solo Noodle, 1409 NE 45th St, Seattle, WA 98105",
+    tags: ["牛肉面"],
+    price: "$$ · ~$15-20",
+    visited: true,
+    badges: ["🔥 量大管饱"],
+    dishes: [
+      { name: "牛肉鲜面条", note: "招牌 · 配卤蛋" },
+      { name: "牛肋条鲜面条 / 牛肉红薯粉", note: "网上推荐" },
+    ],
+    notes: [
+      { type: "info", text: "💡 ZZ 亲自品尝：性价比很不错，分量大，价格也不贵" },
+      { type: "info", text: "🪑 店面小，只有几张桌子，在 kiosk 自助点餐" },
+    ],
+  },
 
   // ===================== Bellevue =====================
   // ---- 中餐 ----
